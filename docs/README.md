@@ -123,7 +123,7 @@ This document lists all parts used or intended for use in the DashForge in-vehic
 
 | Item | Description | Link |
 |------|-------------|------|
-| Micro USB 5-Port 10/100Mbps Switch | For Pi-to-Pi wired communication | [Link](https://www.amazon.com/dp/B01MAURDGG?ref_=ppx_hzsearch_conn_dt_b_fed_asin_title_1) |
+| Micro USB 5-Port 10/100Mbps Switch | For Pi-to-Pi wired communication | [Link](https://www.amazon.com/dp/B06XQSW7Z6?ref_=ppx_hzsearch_conn_dt_b_fed_asin_title_12) |
 
 ---
 

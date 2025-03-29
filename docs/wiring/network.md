@@ -76,5 +76,5 @@ graph TD
 
 | Part | Description | Amazon Link |
 |------|-------------|-------------|
-| Micro-USB 5-Port LAN Switch | USB-powered local Ethernet switch | [View on Amazon](https://www.amazon.com/dp/B01MAURDGG?ref_=ppx_hzsearch_conn_dt_b_fed_asin_title_1) |
+| Micro-USB 5-Port LAN Switch | USB-powered local Ethernet switch | [View on Amazon](https://www.amazon.com/dp/B06XQSW7Z6?ref_=ppx_hzsearch_conn_dt_b_fed_asin_title_12) |
 
