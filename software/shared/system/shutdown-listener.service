@@ -1,0 +1,11 @@
+[Unit]
+Description=DashForge GPIO Shutdown Listener
+After=multi-user.target
+
+[Service]
+ExecStart=/usr/bin/python3 /home/pi/DashForge/software/shared/system/shutdown_trigger.py
+Restart=on-failure
+User=pi
+
+[Install]
+WantedBy=multi-user.target

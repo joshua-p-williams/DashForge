@@ -36,3 +36,22 @@ DashForge is a modular Raspberry Pi-based platform for vehicle diagnostics, medi
 ---
 
 > This project is built to evolve. As needs change, features will be added modularly without disrupting existing functionality.
+
+---
+
+## 🔧 Quick Start on Raspberry Pi
+
+To set up a Raspberry Pi for DashForge, run this single command from the Pi's terminal:
+
+```bash
+bash <(curl -s https://raw.githubusercontent.com/joshua-p-williams/DashForge/main/setup/remote-install.sh)
+```
+
+This will:
+
+- Clone (or update) the DashForge repository
+- Detect or prompt for the Pi's role (e.g. `dash`, `media`, `blackbox`)
+- Install required dependencies and services for that role
+- Configure safe shutdown behavior using GPIO
+
+After installation, the Pi will be ready for use in your vehicle.
