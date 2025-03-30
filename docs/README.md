@@ -84,6 +84,7 @@ This document lists all parts used or intended for use in the DashForge in-vehic
 | 12V Mini Rocker Switch (Qty: 6) | For inline kill switch | [Link](https://www.amazon.com/gp/product/B07L9JWVVR/ref=ppx_yo_dt_b_asin_title_o00_s00?ie=UTF8&psc=1) |
 | 12V to 5V Buck Converter | Pi power supply | [Link](https://www.amazon.com/dp/B01MQ1M4C0?ref_=ppx_hzsearch_conn_dt_b_fed_asin_title_6) |
 | Add-a-Circuit Fuse Tap Adapter | Pull 12V constant and ACC from fuse panel | [Link](https://www.amazon.com/dp/B0812DGR5Q?ref_=ppx_hzsearch_conn_dt_b_fed_asin_title_4&th=1) |
+| PC817 2-Channel Optocoupler Isolation Module | Isolates 12V automotive signal and safe lower and reliable 3.3V / 5V | [Link](https://www.amazon.com/dp/B0DD3D3H3H?psc=1&ref=ppx_yo2ov_dt_b_product_details) |
 
 ---
 

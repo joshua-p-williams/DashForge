@@ -1,6 +1,6 @@
 # 🔌 Power System Wiring
 
-Wiring plan for safe Raspberry Pi power-up and shutdown using a delay-off relay, constant and accessory 12V sources, a buck converter, and an inline kill switch.
+Wiring plan for safe Raspberry Pi power-up and shutdown using a delay-off relay, constant and accessory 12V sources, a buck converter, an opto-isolator, and an inline kill switch.
 
 ---
 
@@ -16,7 +16,7 @@ Wiring plan for safe Raspberry Pi power-up and shutdown using a delay-off relay,
 
 ---
 
-## Power Flow Diagram
+## Power Flow Diagram 
 
 ```mermaid
 graph TD
@@ -24,7 +24,23 @@ graph TD
     Constant[12V Constant] --> Kill[Inline Rocker Switch]
     Kill --> XYJ02
     XYJ02 -->|Relay Output| Buck[12V to 5V Buck Converter]
-    Buck --> Pi[Raspberry Pi]
+    Buck --> PiVCC[VCC]
+
+    ACC -->|12V Signal| Opto[Optocoupler Module]
+
+    Pi33[3.3V Rail] -->|3.3V Pull-Up| Opto
+    Opto -->|Isolated 3.3V Signal| GPIO17[GPIO17]
+
+    subgraph Raspberry Pi
+        PiVCC
+        GPIO17
+        Pi33
+    end
+
+    subgraph Car Power
+        ACC
+        Constant
+    end
 ```
 
 ---
@@ -142,3 +158,4 @@ finally:
 | 12V Mini Rocker Switch | Inline kill switch for cutting 12V Constant manually | [View on Amazon](https://www.amazon.com/gp/product/B07L9JWVVR/ref=ppx_yo_dt_b_asin_title_o00_s00?ie=UTF8&psc=1) |
 | 12V to 5V Buck Converter (3A) | Powers Raspberry Pi from 12V Constant | [View on Amazon](https://www.amazon.com/dp/B01MQ1M4C0?ref_=ppx_hzsearch_conn_dt_b_fed_asin_title_6) |
 | Add-a-Circuit Fuse Tap Adapter | Used to pull 12V Constant and Accessory power safely from fuse box | [View on Amazon](https://www.amazon.com/dp/B0812DGR5Q?ref_=ppx_hzsearch_conn_dt_b_fed_asin_title_4&th=1) |
+| PC817 2-Channel Optocoupler Isolation Module | Isolates 12V accessory signal and outputs safe 3.3V logic to Pi GPIO | [View on Amazon](https://www.amazon.com/dp/B0DD3D3H3H?psc=1&ref=ppx_yo2ov_dt_b_product_details) |
