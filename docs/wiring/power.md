@@ -73,9 +73,9 @@ While originally designed to safely power a Raspberry Pi, this system can now se
 | `BUCK5V` | 12V to 5V Buck Converter (3A)     | Converts relay output to Pi-safe power |
 | `OPTO3V3`| PC817 Optocoupler (for Pi GPIO17) | Pulls signal LOW on ACC OFF, uses Pi 3.3V rail |
 | `OPTO5V` | PC817 Optocoupler (for other 5V device) | Same concept, uses 5V rail |
-| `FUSE_X` | Glass Fuses                      | Placed on VIN_CONST input and all powered outputs |
+| `FUSE_X` | Fuses (Glass or ATO/ATC)          | Placed on VIN_CONST input and all powered outputs |
 | `SW_KILL`| Inline Rocker Switch             | Master kill on VIN_CONST line |
-
+| `PROT_IN`  | Input Protection Module (MOSFET + TVS + Fuse) | Handles reverse polarity, surges, and overcurrent |
 
 ```mermaid
 graph TD
@@ -94,9 +94,11 @@ graph TD
     %% Power Hub
     subgraph PowerHub["Smart Power Hub Enclosure"]
         XYJ02["XYJ02 (XY-J02 Relay)"]
-        FUSE_12V["FUSE_X (12V Switched Fuse)"]
+        PROT_IN_CONST["PROT_IN (Input Protection on 12V Const)"]
+        PROT_IN_ACC["PROT_IN (Input Protection 12V Accessory)"]
         BUCK5V["BUCK5V (12V to 5V Buck Converter)"]
         FUSE_5V["FUSE_X (5V Output Fuse)"]
+        FUSE_12V["FUSE_X (12V Output Fuse)"]
         OPTO3V3["OPTO3V3 (Optocoupler for 3.3V GPIO)"]
         OPTO5V["OPTO5V (Optocoupler for 5V GPIO)"]
     end
@@ -122,18 +124,19 @@ graph TD
     end
 
     %% Relay Power Chain
-    SW_KILL -->|VCC| XYJ02
-    VIN_ACC -->|Trigger| XYJ02
-    XYJ02 --> FUSE_12V --> BUCK5V --> FUSE_5V
-    FUSE_12V --> VOUT_12V_SW
+    SW_KILL -->|VCC| PROT_IN_CONST
+    PROT_IN_CONST --> XYJ02
+    VIN_ACC --> PROT_IN_ACC -->|Trigger| XYJ02
+    XYJ02 --> BUCK5V --> FUSE_5V
+    XYJ02 --> FUSE_12V --> VOUT_12V_SW
     FUSE_5V --> VOUT_5V
     VOUT_5V --> PiVCC
 
     %% Shutdown Signal Paths
-    VIN_ACC -->|12V Signal| OPTO3V3
+    PROT_IN_ACC --> OPTO3V3
     VREF_3V3 -->|Pull-up| OPTO3V3 --> SIG_SHUT_3V3 --> GPIO17
 
-    VIN_ACC -->|12V Signal| OPTO5V
+    PROT_IN_ACC --> OPTO5V
     VREF_5V -->|Pull-up| OPTO5V --> SIG_SHUT_5V --> DeviceGPIO
 
 ```
@@ -151,6 +154,13 @@ All components share a common ground. Use a **GND bus bar or terminal block** in
 - Output grounds
 
 All device outputs (Pi, other device, etc.) should tie into this common ground.
+
+---
+
+### 🛡️ PROT_IN (Input Protection Module)
+
+Protects downstream components from reverse polarity, voltage spikes, and overcurrent.  
+See [Input Protection Module](./power-input-protection.md) for full details and wiring.
 
 ---
 
