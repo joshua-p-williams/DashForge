@@ -1,12 +1,3 @@
-
-
----
-
-### 📘 Quick Summary of Input Protection
-
-
-
-
 # 🔧 Input Protection Module
 
 ## ✅ Purpose

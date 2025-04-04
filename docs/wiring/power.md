@@ -76,6 +76,7 @@ While originally designed to safely power a Raspberry Pi, this system can now se
 | `FUSE_X` | Fuses (Glass or ATO/ATC)          | Placed on VIN_CONST input and all powered outputs |
 | `SW_KILL`| Inline Rocker Switch             | Master kill on VIN_CONST line |
 | `PROT_IN`  | Input Protection Module (MOSFET + TVS + Fuse) | Handles reverse polarity, surges, and overcurrent |
+| `FILTER_IN` | Input Power Filter Module | Removes noise, ripple, and high-frequency transients before regulation |
 
 ```mermaid
 graph TD
@@ -95,7 +96,9 @@ graph TD
     subgraph PowerHub["Smart Power Hub Enclosure"]
         XYJ02["XYJ02 (XY-J02 Relay)"]
         PROT_IN_CONST["PROT_IN (Input Protection on 12V Const)"]
+        FILTER_IN_CONST["FILTER_IN (Filter noise on 12V Const)"]
         PROT_IN_ACC["PROT_IN (Input Protection 12V Accessory)"]
+        FILTER_IN_ACC["FILTER_IN (Filter noise on 12V Accessory)"]
         BUCK5V["BUCK5V (12V to 5V Buck Converter)"]
         FUSE_5V["FUSE_X (5V Output Fuse)"]
         FUSE_12V["FUSE_X (12V Output Fuse)"]
@@ -125,18 +128,19 @@ graph TD
 
     %% Relay Power Chain
     SW_KILL -->|VCC| PROT_IN_CONST
-    PROT_IN_CONST --> XYJ02
-    VIN_ACC --> PROT_IN_ACC -->|Trigger| XYJ02
+    PROT_IN_CONST --> FILTER_IN_CONST
+    FILTER_IN_CONST --> XYJ02
+    VIN_ACC --> PROT_IN_ACC --> FILTER_IN_ACC -->|Trigger| XYJ02
     XYJ02 --> BUCK5V --> FUSE_5V
     XYJ02 --> FUSE_12V --> VOUT_12V_SW
     FUSE_5V --> VOUT_5V
     VOUT_5V --> PiVCC
 
     %% Shutdown Signal Paths
-    PROT_IN_ACC --> OPTO3V3
+    FILTER_IN_ACC --> OPTO3V3
     VREF_3V3 -->|Pull-up| OPTO3V3 --> SIG_SHUT_3V3 --> GPIO17
 
-    PROT_IN_ACC --> OPTO5V
+    FILTER_IN_ACC --> OPTO5V
     VREF_5V -->|Pull-up| OPTO5V --> SIG_SHUT_5V --> DeviceGPIO
 
 ```
@@ -161,6 +165,12 @@ All device outputs (Pi, other device, etc.) should tie into this common ground.
 
 Protects downstream components from reverse polarity, voltage spikes, and overcurrent.  
 See [Input Protection Module](./power-input-protection.md) for full details and wiring.
+
+---
+
+### 🧲 FILTER_IN (Noise Filter Module)
+Filters ripple, noise, and EMI from the 12V line before it reaches the regulator.  
+See [Filtering Module](./power-filtering.md) for full details and wiring.
 
 ---
 
